@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<configuration xmlns="http://www.jooq.org/xsd/jooq-codegen-3.11.0.xsd">
+    <jdbc>
+        <driver>org.postgresql.Driver</driver>
+        <url>jdbc:postgresql://localhost:6666/postgres?loggerLevel=OFF</url>
+        <user>postgres</user>
+        <password>secret</password>
+    </jdbc>
+    <generator>
+        <generate>
+            <javaTimeTypes>true</javaTimeTypes>
+            <routines>false</routines>
+            <immutablePojos>true</immutablePojos>
+            <daos>true</daos>
+            <pojosEqualsAndHashCode>true</pojosEqualsAndHashCode>
+        </generate>
+        <database>
+            <name>org.jooq.meta.postgres.PostgresDatabase</name>
+            <includes>.*</includes>
+            <excludes>public.regexp_matches | public.regexp_split_to_table | public.schema_version</excludes>
+            <inputSchema>public</inputSchema>
+        </database>
+        <target>
+            <packageName>ch.metamodel</packageName>
+            <directory>src/main/java/</directory>
+        </target>
+    </generator>
+</configuration>

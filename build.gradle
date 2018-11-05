@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.0'
+    id 'ch.ayedo.jooqmodelator' version '3.0.3'
+}
+
+group 'ch.ayedo'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+jooqModelator {
+    jooqVersion = '3.11.4'
+    jooqEdition = 'OSS'
+    jooqConfigPath = "${project.projectDir}/jooqConfiguration.xml"
+    jooqOutputPath = "${project.projectDir}/src/main/java/ch/metamodel"
+    migrationEngine = 'FLYWAY'
+    migrationsPaths = ["${project.projectDir}/src/main/resources/db/migration".toString()]
+    dockerTag = 'postgres:10.5'
+    dockerEnv = ['POSTGRES_DB=postgres', 'POSTGRES_USER=postgres', 'POSTGRES_PASSWORD=secret']
+    dockerHostPort = 6666
+    dockerContainerPort = 5432
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jooq:jooq:3.11.4"
+    compile 'com.zaxxer:HikariCP:3.2.0'
+    compile 'org.testcontainers:testcontainers:1.9.1'
+    compile 'org.testcontainers:postgresql:1.9.1'
+    compile 'org.flywaydb:flyway-core:5.1.4'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+    compile "org.postgresql:postgresql:42.2.4"
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    jooqModelatorRuntime("org.postgresql:postgresql:42.2.4")
+
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
